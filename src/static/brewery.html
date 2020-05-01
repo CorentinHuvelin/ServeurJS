@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Brasserie FR</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/icons/chatb.ico.png"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor/materializeDesign/css/materialize.css">
+    <link rel="stylesheet" href="demo.css" /><!-- ensemble de donnée pour le site -->
+  </head>
+  <body>
+    <header><!-- navbar -->
+      <h1>Brasserie Française</h1>
+      <nav >
+        <a href="demo.html" class="liennav">Accueil</a>
+        <a href="" class="liennav">Brasserie Française</a>
+      </nav>
+    </header>
+    <div id="app"><!-- Vue -->
+      <table v-show="display">
+        <tr>
+          <td>Ville</td>
+          <td>Nom de brasserie</td>
+          <td>Adresse</td>
+          <td>Téléphone</td>
+          <td>Chat en ligne</td>
+        </tr>
+        <tr v-for="bre in brewery"><!-- displayd e l'enmble des brasserie française -->
+          <td>{{bre.fields.city}}</td>
+          <td>{{bre.fields.name_breweries}}</td>
+          <td>{{bre.fields.address1}}</td>
+          <td>{{bre.fields.phone}}</td>
+          <td class="lien" @click="hidden(bre.fields.id)">Rejoindre le chat</td>
+        </tr>
+      </table><!-- !display = après clique pour rejoindre chat et display = pas encore cliquer -->
+      <h5 v-show="!display" v-if="!connected" class="compte">Bonjour, {{compte}}</h5>
+      <input class="inputc" type="text" v-show="!display" v-model="compte" v-if="connected" placeholder="Votre pseudo" v-on:keyup.enter="handleConnexion"></input>
+      <br /><!-- connected = pas encore connecté et !connected = connecté -->
+      <button v-show="!display" v-if="connected" @click="handleConnexion">Connexion</button>
+      <br />
+      <input class="inputm" type="text" v-show="!display" v-if="!connected" v-model="msg" placeholder="Votre message" v-on:keyup.enter="handleClick"></input>
+      <button v-show="!display" v-if="!connected" @click="handleClick">Send</button>
+      <button v-show="!display" v-if="!connected" @click="handleDeconnexion">Déconnexion</button>
+      <button v-show="!display" @click="handleBack">Go back to Brasserie</button>
+      <div v-show="!display" class="parent">
+        <div class="compte">
+          <h6>Utilisateur Connecté</h6>
+          <ul>
+            <li v-for="user in users">{{user}}</li><!-- v-for pour les users -->
+          </ul>
+        </div>
+        <div class="middle">
+          <hr class="separation" />
+        </div>
+        <ul class="chat">
+          <li v-for="msg in msgs">{{msg.dt}} {{msg.cmp}} : {{msg.mess}}</li><!-- v-for pour affichage des messages-->
+        </ul>
+      </div>
+    </div>
+    <script type="module" src="assets/vendor/VueJS/vue.js"></script><!-- ensemble des fichiers js nécessaire -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="assets/js/brewery.js"></script>
+  </body>
+</html>

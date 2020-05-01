@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tchat en ligne</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/icons/chatb.ico.png"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor/materializeDesign/css/materialize.css">
+    <link rel="stylesheet" href="demo.css" /><!-- ensemble de donnée pour le site -->
+  </head>
+  <body>
+    <header>
+      <h1>Chat en ligne Général</h1>
+      <nav>
+        <a href="" class="liennav">Accueil</a>
+        <a href="brewery.html" class="liennav">Brasserie Française</a>
+      </nav>
+    </header>
+    <div id="app"><!-- Vue -->
+      <h5 v-show="!display" class="compte">Bonjour, {{compte}}</h5><!-- display = pas encore connecté et !display = connecté -->
+      <input class="inputc" type="text" v-show="display" v-model="compte" v-on:keyup.enter="handleConnexion" placeholder="Votre pseudo"></input>
+      <br />
+      <button v-show="display" @click="handleConnexion">Connexion</button>
+      <br />
+      <input class="inputm" type="text" v-show="!display" v-model="msg" placeholder="Votre message" v-on:keyup.enter="handleClick"></input>
+      <button v-show="!display" @click="handleClick">Send</button>
+      <button v-show="!display" @click="handleDeconnexion">Déconnexion</button>
+      <div class="parent">
+        <div class="compte">
+          <h6>Utilisateur Connecté</h6>
+          <ul>
+            <li v-for="user in users">{{user}}</li><!-- Affichage de tout les client connecté -->
+          </ul>
+        </div>
+        <div class="middle">
+          <hr class="separation" />
+        </div>
+        <ul class="chat"><!-- affichage des messages -->
+          <li v-for="msg in msgs">{{msg.dt}} {{msg.cmp}} : {{msg.mess}}</li>
+        </ul>
+      </div>
+    </div>
+    <script type="module" src="assets/vendor/VueJS/vue.min.js"></script><!-- fichier js associé -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="assets/js/demo.js"></script>
+  </body>
+</html>
